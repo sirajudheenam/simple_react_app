@@ -1,17 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import ClockApp from './components/clock/ClockApp';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createStore, applyMiddleware } from 'redux';
+// import { combineReducers } from 'redux';
+import { Provider } from  'react-redux';
+/*
+Wrap your App with Provider so it can provide the redux Store to our App.
+<Provider store={store} > <App /> </Provider>
+Passing store as an argument
+*/
+import userReducer from './reducers/userReducer';
+// import todoReducer from './reducers/todoReducer';
+import thunk from 'redux-thunk';
+/*
+const store = createStore(rootReducer);
+*/
+// const rootReducer = combineReducers({
+// 	user: userReducer,
+// 	todo: todoReducer
+// })
+
+// const dummyStore = createStore(todoReducer);
+
+
+const store = createStore(userReducer, applyMiddleware(thunk));
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<Provider store={store} >
+		<App />
+	</Provider>,
+	document.querySelector('#root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
